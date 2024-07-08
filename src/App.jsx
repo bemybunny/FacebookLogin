@@ -1,36 +1,35 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { LoginSocialFacebook } from "reactjs-social-login";
 import { FacebookLoginButton } from "react-social-login-buttons";
 
 function App() {
   const [profile, setProfile] = useState(null);
 
+  const handleSocialLogin = (user) => {
+    console.log(user);
+  };
+  
+  const handleSocialLoginFailure = (err) => {
+    console.error(err);
+  };
+
   return (
     <div>
-      {!profile ? (
+      {!profile && (
         <LoginSocialFacebook
-          appId="1210872656772877"
-          onResolve={(response) => {
-            console.log(response);
-            setProfile(response.data);
-          }}
-          onReject={(error) => {
-            console.log(error);
-          }}
+          appId="1331878674916889"
+          onLoginSuccess={handleSocialLogin}
+          onLoginFailure={handleSocialLoginFailure}
         >
           <FacebookLoginButton />
         </LoginSocialFacebook>
-      ) : (
-        ""
       )}
 
-      {profile ? (
+      {profile && (
         <div>
           <h1>{profile.name}</h1>
-          <img src={profile.picture.data.url} />
+          <img src={profile.picture.data.url} alt={profile.name} />
         </div>
-      ) : (
-        ""
       )}
     </div>
   );
